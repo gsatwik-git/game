@@ -8,6 +8,11 @@ const chars = [hole,fieldCharacter]
 const gap = 'X'
 const powerUp = '~'
 const evil = 'ꐦ'
+const banana ='b'
+const quicksand = 'q'
+const teleport = 't'
+const flipper = 'f'
+const collectible = 'c'
 const randChar = () => chars[Math.floor(Math.random()*2)]
 
 

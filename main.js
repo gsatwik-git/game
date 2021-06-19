@@ -97,19 +97,10 @@ class Field {
     }
     decreaseLife () {
         this.lives -=1
-        console.log (`You fell into a hole! You have ${this.lives} life left!`)
-    }
-    assignLives (num) {
-        switch (num) {
-            case 1: 
-                this.lives = 3
-            break
-            case 2: 
-                this.lives = 2
-            break
-            case 3:
-                this.lives = 1
-            break
+        if (this.lives != 1){
+            console.log (`You fell into a hole! You have ${this.lives} life left!`)
+        } else {
+            console.log((`You fell into a hole! You have ${this.lives} lives left!`))
         }
     }
     successfulMove () {
@@ -462,7 +453,8 @@ class Field {
             '↓ You are here')
             while (this.level <5 ) {    
                 this.newField2(this.level)
-                console.log (field1.print())
+                field1.print()
+                console.log('\n')
                 while (this.field[this.hatX][this.hatY] != pathCharacter){
                     if (this.lives != 0){
                         let input = prompt('Where would you like to go? Your Choice: ')

@@ -5,8 +5,9 @@
   "main": "main.js",
   "author": "Codecademy",
   "license": "ISC",
-  
   "dependencies": {
+    "colors": "^1.4.0",
+    "keypress": "^0.2.1",
     "prompt-sync": "^4.1.7"
   }
 }

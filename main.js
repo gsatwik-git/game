@@ -1,4 +1,7 @@
 const prompt = require('prompt-sync')({sigint: true});
+const colors = require('colors')
+var keypress = require('keypress');
+keypress(process.stdin);
 
 const hat = '^';
 const hole = 'O';
@@ -95,7 +98,7 @@ class Field {
         return '\nYou moved out of bounds. Try Again!'
     }
     lostGame() {
-        return '\nYou have no lives left. You Lose!'
+        return '\nYou Lose!'.red
     }
     wonGame (){
         return 'You won!! \n... Wait! This is not your hat!!\n Your hat is in another field! \n The saga continues... '
@@ -103,9 +106,9 @@ class Field {
     decreaseLife () {
         this.lives -=1
         if (this.lives != 1){
-            console.log (`You fell into a hole! You have ${this.lives} life left!`)
+            console.log (`You fell into a hole! You have ${this.lives} lives left!`.red)
         } else {
-            console.log((`You fell into a hole! You have ${this.lives} lives left!`))
+            console.log(`You fell into a hole! You have ${this.lives} life left!`.red)
         }
     }
     successfulMove () {
@@ -117,7 +120,7 @@ class Field {
     }
     noPowerUp () {
         this.lives -=1
-        console.log (`You do not have a rope (~) to cross this gap.\n You lost a life. \nYou have ${this.lives} lives left.`)
+        console.log (`You do not have a rope (~) to cross this gap.\n You lost a life. \nYou have ${this.lives} lives left.`.red)
     }
     gapCross () {
         this.power -= 1

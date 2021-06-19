@@ -26,6 +26,7 @@ class Field {
         this.lives = 0
         this.level = 0
         this.power = 0
+        this.flip = false
     }
     userDefault () {
         this.userX = 0
@@ -127,160 +128,317 @@ class Field {
         console.log( 'Yay! You are now crossing the gap!') 
     }
     move (dir) {
-        switch(dir) {
-            case 's' :
-                //this.moveDown()
-                if (this.userX+1 < this.field.length){
-                    if(this.field[this.userX+1][this.userY] === fieldCharacter){
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX+1][this.userY] = pathCharacter
-                        this.userX += 1
-                        console.log(this.successfulMove())
-                        //return this.print()
-                    } else if (this.field[this.userX+1][this.userY] === hole) {
-                        this.decreaseLife()
-                    } else if (this.field[this.userX+1][this.userY] === hat) {
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX+1][this.userY] = pathCharacter
-                        this.userX += 1
-                        console.log(this.successfulMove())
-                        //return this.print()
-                    } else if (this.field[this.userX+1][this.userY] === powerUp) {
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX+1][this.userY] = pathCharacter
-                        this.userX += 1
-                        this.poweredUp()
-                    } else if (this.field[this.userX+1][this.userY] === gap) {
-                        if (this.power > 0) {
+        if (!this.flip) {
+            switch(dir) {
+                case 's' :
+                    //this.moveDown()
+                    if (this.userX+1 < this.field.length){
+                        if(this.field[this.userX+1][this.userY] === fieldCharacter){
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX+1][this.userY] = pathCharacter
                             this.userX += 1
-                            this.gapCross()
-                        } else {
-                            this.noPowerUp()
+                            console.log(this.successfulMove())
+                            //return this.print()
+                        } else if (this.field[this.userX+1][this.userY] === hole) {
+                            this.decreaseLife()
+                        } else if (this.field[this.userX+1][this.userY] === hat) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX+1][this.userY] = pathCharacter
+                            this.userX += 1
+                            console.log(this.successfulMove())
+                            //return this.print()
+                        } else if (this.field[this.userX+1][this.userY] === powerUp) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX+1][this.userY] = pathCharacter
+                            this.userX += 1
+                            this.poweredUp()
+                        } else if (this.field[this.userX+1][this.userY] === gap) {
+                            if (this.power > 0) {
+                                this.field[this.userX][this.userY] = fieldCharacter
+                                this.field[this.userX+1][this.userY] = pathCharacter
+                                this.userX += 1
+                                this.gapCross()
+                            } else {
+                                this.noPowerUp()
+                            }
                         }
-                    }
-                } else {
-                    console.log (this.outOfBounds())
-                    }
-                break
-            case 'w' : 
-                //this.moveUp()
-                if (this.userX-1 >= 0){
-                    if(this.field[this.userX-1][this.userY] === fieldCharacter){
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX-1][this.userY] = pathCharacter
-                        this.userX -= 1
-                        console.log(this.successfulMove())
-                        //return this.print()
-                    } 
-                    else if (this.field[this.userX-1][this.userY] === hole) {
-                        this.decreaseLife()           
-                    } else if (this.field[this.userX-1][this.userY] === hat) {
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX-1][this.userY] = pathCharacter
-                        this.userX -= 1
-                        console.log(this.successfulMove())
-                        //return this.print()
-                    } else if (this.field[this.userX-1][this.userY] === powerUp) {
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX-1][this.userY] = pathCharacter
-                        this.userX -= 1
-                        this.poweredUp()
-                    } else if (this.field[this.userX-1][this.userY] === gap) {
-                        if (this.power > 0) {
+                    } else {
+                        console.log (this.outOfBounds())
+                        }
+                    break
+                case 'w' : 
+                    //this.moveUp()
+                    if (this.userX-1 >= 0){
+                        if(this.field[this.userX-1][this.userY] === fieldCharacter){
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX-1][this.userY] = pathCharacter
                             this.userX -= 1
-                            this.gapCross()
-                        } else {
-                            this.noPowerUp()
+                            console.log(this.successfulMove())
+                            //return this.print()
+                        } 
+                        else if (this.field[this.userX-1][this.userY] === hole) {
+                            this.decreaseLife()           
+                        } else if (this.field[this.userX-1][this.userY] === hat) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX-1][this.userY] = pathCharacter
+                            this.userX -= 1
+                            console.log(this.successfulMove())
+                            //return this.print()
+                        } else if (this.field[this.userX-1][this.userY] === powerUp) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX-1][this.userY] = pathCharacter
+                            this.userX -= 1
+                            this.poweredUp()
+                        } else if (this.field[this.userX-1][this.userY] === gap) {
+                            if (this.power > 0) {
+                                this.field[this.userX][this.userY] = fieldCharacter
+                                this.field[this.userX-1][this.userY] = pathCharacter
+                                this.userX -= 1
+                                this.gapCross()
+                            } else {
+                                this.noPowerUp()
+                            }
                         }
-                    }
-                } 
-                else {
-                    console.log (this.outOfBounds())
-                }
-                break
-            case 'a' : 
-                //this.moveLeft()
-                if (this.userY-1 >= 0){
-                    if(this.field[this.userX][this.userY-1] === fieldCharacter){
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX][this.userY-1] = pathCharacter
-                        this.userY -= 1
-                        console.log( this.successfulMove())
-                        //return this.print()
                     } 
-                    else if (this.field[this.userX][this.userY-1] === hole) {
-                        this.decreaseLife()
-                    } else if (this.field[this.userX][this.userY-1] === hat) {
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX][this.userY-1] = pathCharacter
-                        this.userY -= 1
-                        console.log( this.successfulMove())
-                        return this.print()
-                    } else if (this.field[this.userX][this.userY-1] === powerUp) {
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX][this.userY-1] = pathCharacter
-                        this.userY -= 1
-                        this.poweredUp()
-                    } else if (this.field[this.userX][this.userY-1] === gap) {
-                        if (this.power > 0) {
+                    else {
+                        console.log (this.outOfBounds())
+                    }
+                    break
+                case 'a' : 
+                    //this.moveLeft()
+                    if (this.userY-1 >= 0){
+                        if(this.field[this.userX][this.userY-1] === fieldCharacter){
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX][this.userY-1] = pathCharacter
                             this.userY -= 1
-                            this.gapCross()
-                        } else {
-                            this.noPowerUp()
+                            console.log( this.successfulMove())
+                            //return this.print()
+                        } 
+                        else if (this.field[this.userX][this.userY-1] === hole) {
+                            this.decreaseLife()
+                        } else if (this.field[this.userX][this.userY-1] === hat) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY-1] = pathCharacter
+                            this.userY -= 1
+                            console.log( this.successfulMove())
+                            return this.print()
+                        } else if (this.field[this.userX][this.userY-1] === powerUp) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY-1] = pathCharacter
+                            this.userY -= 1
+                            this.poweredUp()
+                        } else if (this.field[this.userX][this.userY-1] === gap) {
+                            if (this.power > 0) {
+                                this.field[this.userX][this.userY] = fieldCharacter
+                                this.field[this.userX][this.userY-1] = pathCharacter
+                                this.userY -= 1
+                                this.gapCross()
+                            } else {
+                                this.noPowerUp()
+                            }
                         }
-                    }
-                } else {
-                    console.log (this.outOfBounds())
-                    }
-                break
-            case 'd' :
-                //this.moveRight()
-                if (this.userY+1 < this.field[0].length){
-                    if(this.field[this.userX][this.userY+1] === fieldCharacter){
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX][this.userY+1] = pathCharacter
-                        this.userY += 1
-                        console.log (this.successfulMove())
-                        //return this.print()
-                    } else if (this.field[this.userX][this.userY+1] === hole) {
-                        this.decreaseLife()
-                    } else if (this.field[this.userX][this.userY+1] === hat) {
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX][this.userY+1] = pathCharacter
-                        this.userY += 1
-                        console.log (this.successfulMove())
-                        return this.print()
-                    } else if (this.field[this.userX][this.userY+1] === powerUp) {
-                        this.field[this.userX][this.userY] = fieldCharacter
-                        this.field[this.userX][this.userY+1] = pathCharacter
-                        this.userY += 1
-                        this.poweredUp()
-                    } else if (this.field[this.userX][this.userY+1] === gap) {
-                        if (this.power > 0) {
+                    } else {
+                        console.log (this.outOfBounds())
+                        }
+                    break
+                case 'd' :
+                    //this.moveRight()
+                    if (this.userY+1 < this.field[0].length){
+                        if(this.field[this.userX][this.userY+1] === fieldCharacter){
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX][this.userY+1] = pathCharacter
                             this.userY += 1
-                            this.gapCross()
-                        } else {
-                            this.noPowerUp()
+                            console.log (this.successfulMove())
+                            //return this.print()
+                        } else if (this.field[this.userX][this.userY+1] === hole) {
+                            this.decreaseLife()
+                        } else if (this.field[this.userX][this.userY+1] === hat) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY+1] = pathCharacter
+                            this.userY += 1
+                            console.log (this.successfulMove())
+                            return this.print()
+                        } else if (this.field[this.userX][this.userY+1] === powerUp) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY+1] = pathCharacter
+                            this.userY += 1
+                            this.poweredUp()
+                        } else if (this.field[this.userX][this.userY+1] === gap) {
+                            if (this.power > 0) {
+                                this.field[this.userX][this.userY] = fieldCharacter
+                                this.field[this.userX][this.userY+1] = pathCharacter
+                                this.userY += 1
+                                this.gapCross()
+                            } else {
+                                this.noPowerUp()
+                            }
                         }
+                    } else {
+                        console.log (this.outOfBounds())
+                        }
+                    break
+                case 'winner':
+                    this.cheat()
+                    break     
+                default: 
+                    console.log('Wrong Input! Type w to go Up, s to go Down, a to go Left, d to go Right')           
+            }
+        } else if (this.flip) {
+            switch(dir) {
+                case 'w' :
+                    //this.moveDown()
+                    if (this.userX+1 < this.field.length){
+                        if(this.field[this.userX+1][this.userY] === fieldCharacter){
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX+1][this.userY] = pathCharacter
+                            this.userX += 1
+                            console.log(this.successfulMove())
+                            //return this.print()
+                        } else if (this.field[this.userX+1][this.userY] === hole) {
+                            this.decreaseLife()
+                        } else if (this.field[this.userX+1][this.userY] === hat) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX+1][this.userY] = pathCharacter
+                            this.userX += 1
+                            console.log(this.successfulMove())
+                            //return this.print()
+                        } else if (this.field[this.userX+1][this.userY] === powerUp) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX+1][this.userY] = pathCharacter
+                            this.userX += 1
+                            this.poweredUp()
+                        } else if (this.field[this.userX+1][this.userY] === gap) {
+                            if (this.power > 0) {
+                                this.field[this.userX][this.userY] = fieldCharacter
+                                this.field[this.userX+1][this.userY] = pathCharacter
+                                this.userX += 1
+                                this.gapCross()
+                            } else {
+                                this.noPowerUp()
+                            }
+                        }
+                    } else {
+                        console.log (this.outOfBounds())
+                        }
+                    break
+                case 's' : 
+                    //this.moveUp()
+                    if (this.userX-1 >= 0){
+                        if(this.field[this.userX-1][this.userY] === fieldCharacter){
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX-1][this.userY] = pathCharacter
+                            this.userX -= 1
+                            console.log(this.successfulMove())
+                            //return this.print()
+                        } 
+                        else if (this.field[this.userX-1][this.userY] === hole) {
+                            this.decreaseLife()           
+                        } else if (this.field[this.userX-1][this.userY] === hat) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX-1][this.userY] = pathCharacter
+                            this.userX -= 1
+                            console.log(this.successfulMove())
+                            //return this.print()
+                        } else if (this.field[this.userX-1][this.userY] === powerUp) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX-1][this.userY] = pathCharacter
+                            this.userX -= 1
+                            this.poweredUp()
+                        } else if (this.field[this.userX-1][this.userY] === gap) {
+                            if (this.power > 0) {
+                                this.field[this.userX][this.userY] = fieldCharacter
+                                this.field[this.userX-1][this.userY] = pathCharacter
+                                this.userX -= 1
+                                this.gapCross()
+                            } else {
+                                this.noPowerUp()
+                            }
+                        }
+                    } 
+                    else {
+                        console.log (this.outOfBounds())
                     }
-                } else {
-                    console.log (this.outOfBounds())
-                    }
-                break
-            case 'winner':
-                this.cheat()
-                break     
-            default: 
-                console.log('Wrong Input! Type w to go Up, s to go Down, a to go Left, d to go Right')           
-            } 
+                    break
+                case 'd' : 
+                    //this.moveLeft()
+                    if (this.userY-1 >= 0){
+                        if(this.field[this.userX][this.userY-1] === fieldCharacter){
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY-1] = pathCharacter
+                            this.userY -= 1
+                            console.log( this.successfulMove())
+                            //return this.print()
+                        } 
+                        else if (this.field[this.userX][this.userY-1] === hole) {
+                            this.decreaseLife()
+                        } else if (this.field[this.userX][this.userY-1] === hat) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY-1] = pathCharacter
+                            this.userY -= 1
+                            console.log( this.successfulMove())
+                            return this.print()
+                        } else if (this.field[this.userX][this.userY-1] === powerUp) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY-1] = pathCharacter
+                            this.userY -= 1
+                            this.poweredUp()
+                        } else if (this.field[this.userX][this.userY-1] === gap) {
+                            if (this.power > 0) {
+                                this.field[this.userX][this.userY] = fieldCharacter
+                                this.field[this.userX][this.userY-1] = pathCharacter
+                                this.userY -= 1
+                                this.gapCross()
+                            } else {
+                                this.noPowerUp()
+                            }
+                        }
+                    } else {
+                        console.log (this.outOfBounds())
+                        }
+                    break
+                case 'a' :
+                    //this.moveRight()
+                    if (this.userY+1 < this.field[0].length){
+                        if(this.field[this.userX][this.userY+1] === fieldCharacter){
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY+1] = pathCharacter
+                            this.userY += 1
+                            console.log (this.successfulMove())
+                            //return this.print()
+                        } else if (this.field[this.userX][this.userY+1] === hole) {
+                            this.decreaseLife()
+                        } else if (this.field[this.userX][this.userY+1] === hat) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY+1] = pathCharacter
+                            this.userY += 1
+                            console.log (this.successfulMove())
+                            return this.print()
+                        } else if (this.field[this.userX][this.userY+1] === powerUp) {
+                            this.field[this.userX][this.userY] = fieldCharacter
+                            this.field[this.userX][this.userY+1] = pathCharacter
+                            this.userY += 1
+                            this.poweredUp()
+                        } else if (this.field[this.userX][this.userY+1] === gap) {
+                            if (this.power > 0) {
+                                this.field[this.userX][this.userY] = fieldCharacter
+                                this.field[this.userX][this.userY+1] = pathCharacter
+                                this.userY += 1
+                                this.gapCross()
+                            } else {
+                                this.noPowerUp()
+                            }
+                        }
+                    } else {
+                        console.log (this.outOfBounds())
+                        }
+                    break
+                case 'winner':
+                    this.cheat()
+                    break     
+                default: 
+                    console.log('Wrong Input! Type w to go Up, s to go Down, a to go Left, d to go Right')           
+            }
+        }
     }
     newGame () {
         const start = prompt('\nWould you like to start a new game? Y/N: ')

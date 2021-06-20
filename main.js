@@ -3,20 +3,20 @@ const colors = require('colors')
 var keypress = require('keypress');
 keypress(process.stdin);
 
-const hat = '^';        // The item to find at the end of each level
-const hole = 'O';       // areas to avoid by the player. They will lose a life every time they land in one of these
-const fieldCharacter = '░';    // areas to walk through safely by the player 
-const pathCharacter = '*';      // the player's position is indicated by this icon
-// const chars = [hole,fieldCharacter]     
-const gap = 'X' // these are hurdles the player must pass by collecting a rope (~)
-const rope = '~'     // this is a rope that 
-const evil = 'ꐦ'
-const banana ='b'
-const quicksand = 'q'
-const teleport = 't'
-const flipper = 'f'
-const collectible = 'c'
-const randChar = () => chars[Math.floor(Math.random()*2)]
+const hat = '^'.magenta;        // The item to find at the end of each level
+const hole = 'O'.black;       // areas to avoid by the player. They will lose a life every time they land in one of these
+const fieldCharacter = '░'.green;    // areas to walk through safely by the player 
+const pathCharacter = '*'.blue;      // the player's position is indicated by this icon
+const gap = 'X'.yellow // these are hurdles the player must pass by collecting a rope (~)
+const rope = '~'.cyan     // this is a rope that 
+const evil = 'ꐦ'       // Moving villain in the field as an obstacle for the player
+const banana ='b'       // slippery area that will push the player by 3 steps in the direction they are moving
+const quicksand = 'q'       //area in the field that will keep the player in the same place for 3 steps
+const teleport = 't'        // will teleport the player to a random teleport pad on the field
+const flipper = 'f'     //Going through this will switch the directions of the game (e.g: press "up" to go down)
+const collectible = 'c'     // random collectibles in the game. Players will be rewarded for collecting all collectibles in each level.
+//const chars = [hole,fieldCharacter]     
+//const randChar = () => chars[Math.floor(Math.random()*2)]
 
 
 let level1 = [[fieldCharacter,fieldCharacter,hole,fieldCharacter],[fieldCharacter,fieldCharacter,hole,fieldCharacter],[hole,fieldCharacter,fieldCharacter,hole],[fieldCharacter,hole,fieldCharacter,fieldCharacter]]
@@ -146,7 +146,7 @@ class Field {
                             this.userX += 1
                             console.log(this.successfulMove())
                             //return this.print()
-                        } else if (this.field[this.userX+1][this.userY] === powerUp) {
+                        } else if (this.field[this.userX+1][this.userY] === rope) {
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX+1][this.userY] = pathCharacter
                             this.userX += 1
@@ -183,7 +183,7 @@ class Field {
                             this.userX -= 1
                             console.log(this.successfulMove())
                             //return this.print()
-                        } else if (this.field[this.userX-1][this.userY] === powerUp) {
+                        } else if (this.field[this.userX-1][this.userY] === rope) {
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX-1][this.userY] = pathCharacter
                             this.userX -= 1
@@ -221,7 +221,7 @@ class Field {
                             this.userY -= 1
                             console.log( this.successfulMove())
                             return this.print()
-                        } else if (this.field[this.userX][this.userY-1] === powerUp) {
+                        } else if (this.field[this.userX][this.userY-1] === rope) {
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX][this.userY-1] = pathCharacter
                             this.userY -= 1
@@ -257,7 +257,7 @@ class Field {
                             this.userY += 1
                             console.log (this.successfulMove())
                             return this.print()
-                        } else if (this.field[this.userX][this.userY+1] === powerUp) {
+                        } else if (this.field[this.userX][this.userY+1] === rope) {
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX][this.userY+1] = pathCharacter
                             this.userY += 1
@@ -301,7 +301,7 @@ class Field {
                             this.userX += 1
                             console.log(this.successfulMove())
                             //return this.print()
-                        } else if (this.field[this.userX+1][this.userY] === powerUp) {
+                        } else if (this.field[this.userX+1][this.userY] === rope) {
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX+1][this.userY] = pathCharacter
                             this.userX += 1
@@ -338,7 +338,7 @@ class Field {
                             this.userX -= 1
                             console.log(this.successfulMove())
                             //return this.print()
-                        } else if (this.field[this.userX-1][this.userY] === powerUp) {
+                        } else if (this.field[this.userX-1][this.userY] === rope) {
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX-1][this.userY] = pathCharacter
                             this.userX -= 1
@@ -376,7 +376,7 @@ class Field {
                             this.userY -= 1
                             console.log( this.successfulMove())
                             return this.print()
-                        } else if (this.field[this.userX][this.userY-1] === powerUp) {
+                        } else if (this.field[this.userX][this.userY-1] === rope) {
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX][this.userY-1] = pathCharacter
                             this.userY -= 1
@@ -412,7 +412,7 @@ class Field {
                             this.userY += 1
                             console.log (this.successfulMove())
                             return this.print()
-                        } else if (this.field[this.userX][this.userY+1] === powerUp) {
+                        } else if (this.field[this.userX][this.userY+1] === rope) {
                             this.field[this.userX][this.userY] = fieldCharacter
                             this.field[this.userX][this.userY+1] = pathCharacter
                             this.userY += 1

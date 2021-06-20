@@ -3,13 +3,13 @@ const colors = require('colors')
 var keypress = require('keypress');
 keypress(process.stdin);
 
-const hat = '^';
-const hole = 'O';
-const fieldCharacter = '░';
-const pathCharacter = '*';
-const chars = [hole,fieldCharacter]
-const gap = 'X'
-const powerUp = '~'
+const hat = '^';        // The item to find at the end of each level
+const hole = 'O';       // areas to avoid by the player. They will lose a life every time they land in one of these
+const fieldCharacter = '░';    // areas to walk through safely by the player 
+const pathCharacter = '*';      // the player's position is indicated by this icon
+// const chars = [hole,fieldCharacter]     
+const gap = 'X' // these are hurdles the player must pass by collecting a rope (~)
+const rope = '~'     // this is a rope that 
 const evil = 'ꐦ'
 const banana ='b'
 const quicksand = 'q'
@@ -21,9 +21,9 @@ const randChar = () => chars[Math.floor(Math.random()*2)]
 
 let level1 = [[fieldCharacter,fieldCharacter,hole,fieldCharacter],[fieldCharacter,fieldCharacter,hole,fieldCharacter],[hole,fieldCharacter,fieldCharacter,hole],[fieldCharacter,hole,fieldCharacter,fieldCharacter]]
 let level2 = [[fieldCharacter,fieldCharacter,fieldCharacter,hole,hole],[hole,hole,fieldCharacter,fieldCharacter,hole],[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole],[fieldCharacter,hole,hole,hole,hole],[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter]]
-let level3 = [[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter],[hole,hole,fieldCharacter,hole,hole,hole,fieldCharacter],[powerUp,fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter,fieldCharacter],[fieldCharacter,hole,fieldCharacter,hole,hole,fieldCharacter,hole],[fieldCharacter,hole,hole,fieldCharacter,fieldCharacter,fieldCharacter,hole],[fieldCharacter,fieldCharacter,hole,fieldCharacter,hole,hole,hole],[hole,fieldCharacter,fieldCharacter,gap,fieldCharacter,fieldCharacter,fieldCharacter]]
-let level4 = [[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter],[fieldCharacter,fieldCharacter,hole,hole,hole,hole,fieldCharacter],[hole,fieldCharacter,hole,hole,powerUp,hole,fieldCharacter],[fieldCharacter,fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter,fieldCharacter],[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole,hole],[hole,fieldCharacter,hole,hole,hole,hole,hole],[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,gap,fieldCharacter]]
-let level5 = [[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter],[hole,hole,hole,hole,hole,gap,hole,hole,hole,powerUp],[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole],[fieldCharacter,hole,hole,fieldCharacter,fieldCharacter,hole,hole,hole,fieldCharacter,hole],[powerUp,fieldCharacter,hole,hole,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole],[hole,fieldCharacter,hole,powerUp,hole,hole,hole,hole,hole,hole],[fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole],[fieldCharacter,hole,hole,hole,hole,fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter],[gap,hole,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole,hole,fieldCharacter,gap],[fieldCharacter,fieldCharacter,fieldCharacter,hole,hole,hole,hole,hole,gap,fieldCharacter]]
+let level3 = [[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter],[hole,hole,fieldCharacter,hole,hole,hole,fieldCharacter],[rope,fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter,fieldCharacter],[fieldCharacter,hole,fieldCharacter,hole,hole,fieldCharacter,hole],[fieldCharacter,hole,hole,fieldCharacter,fieldCharacter,fieldCharacter,hole],[fieldCharacter,fieldCharacter,hole,fieldCharacter,hole,hole,hole],[hole,fieldCharacter,fieldCharacter,gap,fieldCharacter,fieldCharacter,fieldCharacter]]
+let level4 = [[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter],[fieldCharacter,fieldCharacter,hole,hole,hole,hole,fieldCharacter],[hole,fieldCharacter,hole,hole,rope,hole,fieldCharacter],[fieldCharacter,fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter,fieldCharacter],[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole,hole],[hole,fieldCharacter,hole,hole,hole,hole,hole],[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,gap,fieldCharacter]]
+let level5 = [[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter],[hole,hole,hole,hole,hole,gap,hole,hole,hole,rope],[fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole],[fieldCharacter,hole,hole,fieldCharacter,fieldCharacter,hole,hole,hole,fieldCharacter,hole],[rope,fieldCharacter,hole,hole,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole],[hole,fieldCharacter,hole,rope,hole,hole,hole,hole,hole,hole],[fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole],[fieldCharacter,hole,hole,hole,hole,fieldCharacter,fieldCharacter,hole,fieldCharacter,fieldCharacter],[gap,hole,fieldCharacter,fieldCharacter,fieldCharacter,fieldCharacter,hole,hole,fieldCharacter,gap],[fieldCharacter,fieldCharacter,fieldCharacter,hole,hole,hole,hole,hole,gap,fieldCharacter]]
 class Field {
     constructor() {
         this.field = []
@@ -41,7 +41,7 @@ class Field {
         this.userY = 0
         this.field[0][0] = pathCharacter
     }
-    newField2 (level) { 
+    newField (level) { 
         switch (level) { 
         case 0: 
             this.field = level1
@@ -460,7 +460,7 @@ class Field {
             '5. Good Luck!'+'\n'+'\n'+
             '↓ You are here')
             while (this.level <5 ) {    
-                this.newField2(this.level)
+                this.newField(this.level)
                 field1.print()
                 console.log('\n')
                 while (this.field[this.hatX][this.hatY] != pathCharacter){

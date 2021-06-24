@@ -149,8 +149,12 @@ function findPath(level) { // actually, we don't need the end!
             path.push(temp.previous);
             temp = temp.previous;
         }
+
+        console.log(path);
   
         let nextThree = path.slice(Math.max(path.length - 4, 0))
+
+        console.log(nextThree);
     }
   }
 

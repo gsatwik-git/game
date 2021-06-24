@@ -1,4 +1,4 @@
-function findPath(start, goal, level) {
+function findPath(start, end, level) {
     function Spot(i, j) {
         this.i = i; // the X coordinate
         this.j = j; // the y coordinate

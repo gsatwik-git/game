@@ -1,4 +1,4 @@
-function findPath(start, end, level) {
+function findPath(level) { // actually, we don't need the end!
     function Spot(i, j) {
         this.i = i; // the X coordinate
         this.j = j; // the y coordinate
@@ -45,7 +45,7 @@ function findPath(start, end, level) {
     }
     // Manhattan distance
     function heuristic(a, b) {
-        return abs(a.i - b.i) + abs(a.j - b.j)
+        return Math.abs(a.i - b.i) + Math.abs(a.j - b.j)
     }
     // setup
     let cols = countCols(level);
@@ -53,9 +53,14 @@ function findPath(start, end, level) {
     let grid = new Array(cols);
     let openSet = [];
     let closedSet = [];
-    let start;
+    let startNode;
     let end;
     let path = [];
+
+
+    for (var i = 0; i < cols; i++) {
+        grid[i] = new Array(rows);
+      }
   
     // Set up the grid
     for (let i = 0; i < cols; i++) {
@@ -84,12 +89,12 @@ function findPath(start, end, level) {
         }
     }
   
-    start = grid[0][0];
+    startNode = grid[0][0];
     end = grid[cols - 1][rows - 1];
-    start.invalid = false;
+    startNode.invalid = false;
     end.invalid = false;
   
-    openSet.push(start); // initializing our openSet array with the starting node
+    openSet.push(startNode); // initializing our openSet array with the starting node
   
     // While there's something in the openSet
     while (openSet.length != 0) {
@@ -105,7 +110,7 @@ function findPath(start, end, level) {
   
         // If I finish, what do I do!?
         if (currentNode === end) {
-            noLoop(); // this is a p5.js function...
+            // noLoop(); // this is a p5.js function...
             console.log("Done")
         }
   
@@ -148,3 +153,15 @@ function findPath(start, end, level) {
         let nextThree = path.slice(Math.max(path.length - 4, 0))
     }
   }
+
+
+  
+const hat = '^'.magenta;        // The item to find at the end of each level
+const hole = 'O'.black;       // areas to avoid by the player. They will lose a life every time they land in one of these
+const fieldCharacter = '░'.green;    // areas to walk through safely by the player 
+const pathCharacter = '*'.blue;      // the player's position is indicated by this icon
+const gap = 'X'.yellow // these are hurdles the player must pass by collecting a rope (~)
+const rope = '~'.cyan     // this is a rope that 
+let level1 = [[fieldCharacter,fieldCharacter,hole,fieldCharacter],[fieldCharacter,fieldCharacter,hole,fieldCharacter],[hole,fieldCharacter,fieldCharacter,hole],[fieldCharacter,hole,fieldCharacter,fieldCharacter]]
+
+findPath(level1)
